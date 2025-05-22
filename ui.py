@@ -1,5 +1,5 @@
 import bpy
-from operators import calculate_bone_angle
+from . import calculate_bone_angle
 
 class VIEW3D_PT_bone_angle_panel(bpy.types.Panel):
     bl_label = "Bone Angle Tool"
