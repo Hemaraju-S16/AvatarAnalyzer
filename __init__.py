@@ -9,30 +9,32 @@ bl_info = {
 }
 
 
+
 import bpy
-from . import VIEW3D_PT_bone_angle_panel
-from bpy.props import PointerProperty, StringProperty
-
-
-class BoneAngleProperties(bpy.types.PropertyGroup):
-    bone_a: StringProperty(name="Bone A")
-    bone_b: StringProperty(name="Bone B")
-
-
-classes = [
-    BoneAngleProperties,
-    VIEW3D_PT_bone_angle_panel,
-]
+from . import panels, utils
+from . import properties
 
 def register():
-    for cls in classes:
-        bpy.utils.register_class(cls)
-    bpy.types.Scene.bone_angle_props = PointerProperty(type=BoneAngleProperties)
+    bpy.utils.register_class(properties.BoneAngleProperties)
+    bpy.types.Scene.bone_angle_props = bpy.props.PointerProperty(type=properties.BoneAngleProperties)
+    utils.register()
+    panels.register()
+    
+    
 
 def unregister():
-    for cls in reversed(classes):
+    for cls in reversed(panels.classes):
         bpy.utils.unregister_class(cls)
+
     del bpy.types.Scene.bone_angle_props
+    bpy.utils.unregister_class(properties.BoneAngleProperties)
+    panels.unregister()
+    utils.unregister()
+    
+
+    
+
+
 
 if __name__ == "__main__":
     register()
